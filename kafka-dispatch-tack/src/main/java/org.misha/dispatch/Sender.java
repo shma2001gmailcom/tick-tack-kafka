@@ -7,6 +7,7 @@ import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.MessageChannel;
 
+import java.util.Observable;
 import java.util.Observer;
 
 @EnableBinding(Source.class)
@@ -21,6 +22,16 @@ public abstract class Sender implements Observer {
             output.send(MessageBuilder.withPayload(jsonMessage).setHeader("messageType", m.getMessageType()).build());
         } catch (Exception e) {
             throw new RuntimeException("Could not transform and send message due to: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Message<String> m = (Message<String>) reply((Message<String>) arg);
+        try {
+            send(m);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 

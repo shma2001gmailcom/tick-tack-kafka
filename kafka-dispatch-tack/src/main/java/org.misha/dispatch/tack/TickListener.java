@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.misha.dispatch.Listener;
 import org.misha.dispatch.Message;
+import org.misha.dispatch.Sender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +17,10 @@ import static java.lang.Thread.sleep;
 @Slf4j
 @Component
 class TickListener extends Listener {
+    private final Sender tackSender;
+
     @Autowired
-    private TackSender tackSender;
+    public TickListener(Sender tackSender) {this.tackSender = tackSender;}
 
     @Override
     protected Message<String> reply(String messageJson) throws IOException {
