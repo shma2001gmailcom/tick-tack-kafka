@@ -19,13 +19,6 @@ class TickListener extends Listener {
     @Autowired
     private TackSender tackSender;
 
-    public void listen(String messageJson) throws InterruptedException, IOException {
-        setChanged();
-        Message<String> message = reply(messageJson);
-        notifyObservers(message);
-        clearChanged();
-    }
-
     @Override
     protected Message<String> reply(String messageJson) throws IOException {
         try {
@@ -38,11 +31,6 @@ class TickListener extends Listener {
         return message;
     }
 
-    @Override
-    public void notifyObservers(Object arg) {
-        super.notifyObservers(arg);
-        log.debug("\n\n\n\n notified");
-    }
 
     @PostConstruct
     private void addSender() {
