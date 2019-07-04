@@ -2,17 +2,17 @@ package org.misha.dispatch.tack;
 
 import lombok.extern.slf4j.Slf4j;
 import org.misha.dispatch.Message;
-import org.misha.dispatch.Sender;
+import org.misha.dispatch.AbstractSender;
 import org.springframework.stereotype.Component;
 
 import static java.lang.Thread.sleep;
 
 @Component
 @Slf4j
-public class TackSender extends Sender {
+public class TackSender extends AbstractSender {
 
     @Override
-    public Message<?> reply(Message<?> received) {
+    public Message<?> makeReply(Message<?> received) {
         log.debug("***************************");
         try {
             sleep(200);
