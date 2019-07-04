@@ -2,20 +2,17 @@ package org.misha.dispatch;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.MessageChannel;
 
-@EnableBinding(Source.class)
-public abstract class Sender {
-    private final MessageChannel output;
+import java.util.Observer;
 
+@EnableBinding(Source.class)
+public abstract class Sender implements Observer {
     @Autowired
-    public Sender(@Qualifier("output") MessageChannel output) {
-        this.output = output;
-    }
+    private MessageChannel output;
 
     public void send(Message<?> m) throws InterruptedException {
         String jsonMessage;
@@ -27,5 +24,5 @@ public abstract class Sender {
         }
     }
 
-    public abstract  Message<?> prepareReply(Message<?> received);
+    public abstract Message<?> prepareReply(Message<?> received);
 }

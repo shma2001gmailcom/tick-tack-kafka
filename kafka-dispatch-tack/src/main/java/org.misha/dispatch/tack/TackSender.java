@@ -3,22 +3,15 @@ package org.misha.dispatch.tack;
 import lombok.extern.slf4j.Slf4j;
 import org.misha.dispatch.Message;
 import org.misha.dispatch.Sender;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Component;
 
 import java.util.Observable;
-import java.util.Observer;
 
 import static java.lang.Thread.sleep;
 
 @Component
 @Slf4j
-public class TackSender extends Sender implements Observer {
-    public TackSender(@Qualifier("output") MessageChannel output) {
-        super(output);
-    }
-
+public class TackSender extends Sender {
     @Override
     public void update(Observable o, Object arg) {
         Message<String> m = (Message<String>) prepareReply((Message<String>) arg);
