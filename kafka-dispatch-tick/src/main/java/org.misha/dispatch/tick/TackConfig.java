@@ -1,7 +1,6 @@
 package org.misha.dispatch.tick;
 
-import org.misha.dispatch.AbstractListener;
-import org.misha.dispatch.AbstractSender;
+
 import org.misha.dispatch.Listener;
 import org.misha.dispatch.Sender;
 import org.springframework.context.annotation.Bean;

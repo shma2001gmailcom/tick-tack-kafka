@@ -17,6 +17,7 @@ public abstract class AbstractListener extends Observable implements Listener {
     @Override
     @StreamListener(target = Sink.INPUT)
     public void onMessage(String messageJson) throws IOException {
+
         try {
             sleep(2000);
         } catch (InterruptedException e) {
