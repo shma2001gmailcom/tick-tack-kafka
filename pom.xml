@@ -7,6 +7,7 @@
     <modules>
         <module>kafka-dispatch-tick</module>
         <module>kafka-dispatch-tack</module>
+        <module>lib</module>
     </modules>
     <packaging>pom</packaging>
 </project>
