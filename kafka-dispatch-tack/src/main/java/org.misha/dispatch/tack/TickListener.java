@@ -19,6 +19,7 @@ class TickListener extends Observable {
     TickListener(TackSender tackSender) {
         addObserver(tackSender);
     }
+
     @StreamListener(target = Sink.INPUT)
     public void listen(String messageJson) throws InterruptedException, IOException {
         log.debug("\n\n\n+++++\n tack listens for tick");
