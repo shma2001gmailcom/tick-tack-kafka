@@ -24,5 +24,5 @@ public abstract class Sender implements Observer {
         }
     }
 
-    public abstract Message<?> prepareReply(Message<?> received);
+    public abstract Message<?> reply(Message<?> received);
 }

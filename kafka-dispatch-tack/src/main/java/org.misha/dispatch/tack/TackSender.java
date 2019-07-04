@@ -14,7 +14,7 @@ import static java.lang.Thread.sleep;
 public class TackSender extends Sender {
     @Override
     public void update(Observable o, Object arg) {
-        Message<String> m = (Message<String>) prepareReply((Message<String>) arg);
+        Message<String> m = (Message<String>) reply((Message<String>) arg);
         try {
             sleep(2000);
             log.debug("\n\n\n\n sending...");
@@ -26,7 +26,7 @@ public class TackSender extends Sender {
     }
 
     @Override
-    public Message<?> prepareReply(Message<?> received) {
+    public Message<?> reply(Message<?> received) {
         Message<String> m = (Message) received;
         m.setMessageType("tack");
         m.setSender(getClass().getSimpleName());
