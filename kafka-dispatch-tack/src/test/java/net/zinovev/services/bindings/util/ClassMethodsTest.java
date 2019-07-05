@@ -1,4 +1,4 @@
-package net.zinovev.services.bindings.utils;
+package net.zinovev.services.bindings.util;
 
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
