@@ -98,7 +98,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>org.misha.TickDispatchApp</mainClass>
+                    <mainClass>net.zinovev.services.bindings.dispatch.rest.TickDispatchApp</mainClass>
                 </configuration>
             </plugin>
             <plugin>

@@ -1,4 +1,4 @@
-package org.misha;
+package net.zinovev.services.bindings.dispatch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

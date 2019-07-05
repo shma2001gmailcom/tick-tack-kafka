@@ -1,7 +1,7 @@
-package org.misha.dispatch.tack;
+package net.zinovev.services.bindings.dispatch.tack;
 
-import org.misha.dispatch.AbstractListener;
-import org.misha.dispatch.Sender;
+import net.zinovev.services.bindings.dispatch.AbstractListener;
+import net.zinovev.services.bindings.dispatch.Sender;
 import org.springframework.stereotype.Component;
 
 @Component

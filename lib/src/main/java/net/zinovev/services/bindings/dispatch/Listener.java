@@ -1,4 +1,4 @@
-package org.misha.dispatch;
+package net.zinovev.services.bindings.dispatch;
 
 import java.io.IOException;
 

@@ -1,8 +1,8 @@
-package org.misha.dispatch.tick;
+package net.zinovev.services.bindings.dispatch.tick;
 
 import lombok.extern.slf4j.Slf4j;
-import org.misha.dispatch.Message;
-import org.misha.dispatch.AbstractSender;
+import net.zinovev.services.bindings.dispatch.Message;
+import net.zinovev.services.bindings.dispatch.AbstractSender;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

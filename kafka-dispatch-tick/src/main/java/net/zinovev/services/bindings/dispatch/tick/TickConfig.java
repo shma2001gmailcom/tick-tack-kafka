@@ -1,13 +1,13 @@
-package org.misha.dispatch.tick;
+package net.zinovev.services.bindings.dispatch.tick;
 
 
-import org.misha.dispatch.Listener;
-import org.misha.dispatch.Sender;
+import net.zinovev.services.bindings.dispatch.Listener;
+import net.zinovev.services.bindings.dispatch.Sender;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class TackConfig {
+public class TickConfig {
 
     @Bean
     Sender sender() {

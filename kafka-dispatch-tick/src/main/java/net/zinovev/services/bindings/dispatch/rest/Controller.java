@@ -1,7 +1,7 @@
-package org.misha.rest;
+package net.zinovev.services.bindings.dispatch.rest;
 
-import org.misha.dispatch.Message;
-import org.misha.dispatch.tick.TickSender;
+import net.zinovev.services.bindings.dispatch.Message;
+import net.zinovev.services.bindings.dispatch.tick.TickSender;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
