@@ -38,7 +38,8 @@ classes
 debug
 node_modules
 .dtbcache
-.idea/
+/.idea/
 *.iml
 site
 logs
+.patch
