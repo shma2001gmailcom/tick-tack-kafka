@@ -1,4 +1,4 @@
-package org.misha.dispatch.util;
+package net.zinovev.services.bindings.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Sets;
