@@ -2,7 +2,7 @@
 
 export $(grep -v '^#' ./environment.properties | xargs)
 pwd=`pwd`
-grep='grep-pid'
+grep='grep-pid.sh'
 cd ${zookeeper}/bin/
 ./zkServer.sh start
 echo `${pwd}/${grep} quorum`

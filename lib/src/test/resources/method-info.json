@@ -1,0 +1,17 @@
+{
+  "serviceName": "net.zinovev.services.bindings.dispatch.test.Config.TackService",
+  "methodName": "returnSomething",
+  "args": [
+    {
+      "type": "java.lang.Integer",
+      "value": "1"
+    },
+    {
+      "type": "java.lang.String",
+      "value": "s"
+    }
+  ],
+  "annotations": null,
+  "modifiers": null,
+  "returnType": "net.zinovev.services.bindings.dispatch.test.Config.SomeBean"
+}
