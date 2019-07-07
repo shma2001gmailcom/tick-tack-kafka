@@ -18,6 +18,9 @@ import static java.util.stream.Collectors.toList;
 import static org.springframework.util.ClassUtils.forName;
 import static org.springframework.util.ReflectionUtils.findMethod;
 
+/**
+ * Invokes Spring beans on current JVM specified by caller on remote JVM
+ */
 @Component
 public class Invoker {
     private final ListableBeanFactory singletons;
@@ -33,22 +36,27 @@ public class Invoker {
             throws InvocationTargetException, IllegalAccessException, IOException {
         RemoteMethodInfo methodInfo = new ObjectMapper().readValue(methodInfoJson, RemoteMethodInfo.class);
         Class<?> c = findClass(methodInfo.getServiceName());
-        Method m = findMethod(c, methodInfo.getMethodName(), methodInfo.getArgs().stream()
-                                                                       .map(TypedValueInfo::resolveType)
-                                                                       .collect(toList()).toArray(new Class<?>[]{}));
+        Method m = findMethod(c, methodInfo.getMethodName(), resolveParamTypes(methodInfo));
         checkArgument(m != null);
-        return m.invoke(findBeanByClass(c), methodInfo.getArgs().stream()
-                                                      .map(TypedValueInfo::resolve)
-                                                      .toArray());
+        return m.invoke(findProxyByClass(c), resolveMethodParams(methodInfo));
     }
 
-    private Object findBeanByClass(final Class<?> c) {
+    private Class<?>[] resolveParamTypes(final RemoteMethodInfo methodInfo) {
+        return methodInfo.getArgs().stream().map(TypedValueInfo::resolveType)
+                         .collect(toList()).toArray(new Class<?>[]{});
+    }
+
+    private Object[] resolveMethodParams(final RemoteMethodInfo methodInfo) {
+        return methodInfo.getArgs().stream().map(TypedValueInfo::resolve).toArray();
+    }
+
+    private Object findProxyByClass(final Class<?> c) {
         return singletons.getBeansOfType(c).entrySet().stream()
-                                         .filter(b -> beanFactory.isSingleton(b.getKey()))
-                                         .filter(b -> b.getValue().getClass().isAssignableFrom(c))
-                                         .findFirst()
-                                         .orElseThrow(() -> new IllegalStateException("Missing Singleton of type " + c))
-                                         .getValue();
+                         .filter(b -> beanFactory.isSingleton(b.getKey()))
+                         .filter(b -> b.getValue().getClass().isAssignableFrom(c))
+                         .findFirst()
+                         .orElseThrow(() -> new IllegalStateException("Missing Singleton of type " + c))
+                         .getValue();
     }
 
     private static Class<?> findClass(String name) {

@@ -8,6 +8,8 @@ import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.MessageChannel;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 
 @EnableBinding(Source.class)
@@ -17,7 +19,8 @@ public abstract class AbstractSender implements Sender {
     private MessageChannel output;
 
     @Override
-    public void send(Message<?> m) throws InterruptedException {
+    public void send(Message<?> m) throws InterruptedException, IllegalAccessException, IOException,
+            InvocationTargetException {
         String jsonMessage;
         try {
             jsonMessage = new ObjectMapper().writeValueAsString(m);
@@ -28,15 +31,19 @@ public abstract class AbstractSender implements Sender {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable o, Object received) {
         log.debug("update");
-        Message<String> m = (Message<String>) makeReply((Message<String>) arg);
         try {
-            send(m);
+            Message<?> reply = messageReceived((Message<?>) received);
+            send(reply);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 
-    public abstract Message<?> makeReply(Message<?> received);
+    public abstract Message<?> messageReceived(Message<?> received) throws IOException, InvocationTargetException,
+            IllegalAccessException, InterruptedException;
 }

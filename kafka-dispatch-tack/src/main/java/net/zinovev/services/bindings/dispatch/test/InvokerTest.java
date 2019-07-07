@@ -19,7 +19,7 @@ public class InvokerTest {
         this.invoker = invoker;
     }
 
-    @PostConstruct
+    //@PostConstruct
     public void invoke() throws Exception {
         log.error(invoker.invoke(Resources.toString(getResource("test/method-info.json"), UTF_8))
                          .toString());

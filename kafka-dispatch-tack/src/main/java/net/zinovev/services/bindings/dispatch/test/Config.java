@@ -1,95 +1,72 @@
 package net.zinovev.services.bindings.dispatch.test;
 
+import net.zinovev.services.bindings.test.server.SomeBean;
+import net.zinovev.services.bindings.test.server.impl.SomeBeanImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.function.BiFunction;
+
 @Configuration
 public class Config {
     @Bean
-    public TackService tackService() {
+    public net.zinovev.services.bindings.test.server.TackService tackService() {
         return new TackService(anotherService());
     }
 
     @Bean
     AnotherService anotherService() {
-        return new AnotherService(someBeanHolder());
+        return new AnotherService(someBeanFactory());
     }
 
     @Bean
     @Scope("prototype")
-    SomeBean someBean() {
-        return new SomeBean();
-    }
-
-    @Bean
-    SomeBeanHolder someBeanHolder() {
-        return new SomeBeanHolder();
+    net.zinovev.services.bindings.test.server.SomeBean someBean() {
+        return new SomeBeanImpl();
     }
 
     @Component
-    public static class TackService {
+    public static class TackService implements net.zinovev.services.bindings.test.server.TackService {
         private final AnotherService anotherService;
 
         public TackService(final AnotherService anotherService) {
             this.anotherService = anotherService;
         }
 
-        public SomeBean returnSomething(Integer i, String s) {
+        /**
+         * Used by a caller on another JVM as a return value
+         *
+         * @param i sample int parameter
+         * @param s sample String parameter
+         * @return SomeBean containing the parameters
+         */
+        @SuppressWarnings("unused")
+        public net.zinovev.services.bindings.test.server.SomeBean returnSomething(Integer i, String s) {
             return anotherService.getSomeBean(i, s);
         }
     }
 
     @Component
     static class AnotherService {
-        private final SomeBeanHolder someBeanHolder;
+        private final BiFunction<Integer, String, SomeBean> someBeanFactory;
 
-        AnotherService(final SomeBeanHolder someBeanHolder) {
-            this.someBeanHolder = someBeanHolder;
+        AnotherService(final BiFunction<Integer, String, SomeBean> someBeanFactory) {
+            this.someBeanFactory = someBeanFactory;
         }
 
-        SomeBean getSomeBean(Integer i, String s) {
-            return someBeanHolder.newSomeBean(i, s);
-        }
-    }
-
-    @Component
-    public static class SomeBean {
-        private final Integer i;
-        private final String s;
-
-        public SomeBean() {
-            i = 0;
-            s = "";
-        }
-
-        public SomeBean(final Integer i, final String s) {
-            this.i = i;
-            this.s = s;
-        }
-
-        public Integer getI() {
-            return i;
-        }
-
-        public String getS() {
-            return s;
-        }
-
-        @Override
-        public String toString() {
-            return "SomeBean{" +
-                    "i=" + i +
-                    ", s='" + s + '\'' +
-                    '}';
+        net.zinovev.services.bindings.test.server.SomeBean getSomeBean(Integer i, String s) {
+            return someBeanFactory.apply(i, s);
         }
     }
 
-    @Component
-    static class SomeBeanHolder {
-        SomeBean newSomeBean(Integer i, String s) {
-            return new SomeBean(i, s);
-        }
+    /**
+     * SomeBean should be a prototype
+     * @return a Factory supplying a new SomeBean on each getSomeBean() call
+     */
+    @Bean
+    BiFunction<Integer, String, SomeBean> someBeanFactory() {
+        return SomeBeanImpl::new;
     }
 }

@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A contract between client and server
+ */
 @SuppressWarnings("unused")
 public class RemoteMethodInfo implements Serializable {
     private static final long serialVersionUID = 6310352552947174225L;
@@ -154,7 +157,7 @@ public class RemoteMethodInfo implements Serializable {
         }
     }
 
-    static RemoteMethodInfo fromJson(String json) throws IOException {
+    public static RemoteMethodInfo fromJson(String json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addDeserializer(RemoteMethodInfo.class, new RemoteMethodInfoDeserializer());

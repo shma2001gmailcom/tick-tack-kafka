@@ -18,15 +18,17 @@ public abstract class AbstractListener extends Observable implements Listener {
     @Override
     @StreamListener(target = Sink.INPUT)
     public void onMessage(String messageJson) throws IOException {
+        setChanged();
         try {
             sleep(2000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        setChanged();
         Message<?> message = new ObjectMapper().readValue(messageJson, new TypeReference<Message<String>>() {});
         log.debug("Message: {} ", message);
-        notifyObservers(message);
+        if (hasChanged()) {
+            notifyObservers(message);
+        }
         clearChanged();
     }
 }
